@@ -2,10 +2,10 @@ spring:
   application:
     name: Events-Microservice
   datasource:
-    url: jdbc:h2:mem:events
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: ${DATASOURCE_URL:jdbc:h2:mem:events}
+    driver-class-name: ${DATASOURCE_DRIVER:org.h2.Driver}
+    username: ${DATASOURCE_USERNAME:admin}
+    password: ${DATASOURCE_PASSWORD:admin}
   jpa:
     show-sql: true
     properties:
@@ -13,6 +13,13 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: update
+
+# Desenvolvimento
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
   h2:
     console:
       enabled: true
