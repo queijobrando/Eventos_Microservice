@@ -1,26 +1,50 @@
+# application.yml (config geral)
 spring:
   application:
     name: Events-Microservice
   datasource:
-    url: ${DATASOURCE_URL:jdbc:h2:mem:events}
-    driver-class-name: ${DATASOURCE_DRIVER:org.h2.Driver}
-    username: ${DATASOURCE_USERNAME:admin}
-    password: ${DATASOURCE_PASSWORD:admin}
+    url: ${DATASOURCE_URL}
+    driver-class-name: ${DATASOURCE_DRIVER}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
-    hibernate:
-      ddl-auto: update
 
-# Desenvolvimento
 ---
+
+#(perfil dev - H2)
 spring:
   config:
     activate:
       on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:events
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
   h2:
     console:
       enabled: true
       path: /h2-console
+
+---
+
+#(perfil prod - Postgres)
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
