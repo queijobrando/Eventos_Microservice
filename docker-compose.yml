@@ -1,6 +1,6 @@
 services:
-  app:
-    build: .
+  event:
+    build: ./Events-Microservice
     ports:
       - "8080:8080"
     environment:
@@ -11,6 +11,16 @@ services:
       DATASOURCE_DRIVER: ${DATASOURCE_DRIVER}
     depends_on:
       - postgres
+    networks:
+      - event-network
+
+  mail:
+    build: ./Mail-Sender
+    ports:
+      - "8081:8081"
+    environment:
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
     networks:
       - event-network
 
